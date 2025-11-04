@@ -1,16 +1,16 @@
 # FinanceApp
 FinanceApp è un’applicazione desktop sviluppata in Python (Tkinter + Matplotlib) per la gestione personale delle spese e delle entrate mensili.
 
-🚀 Funzionalità Principali
+🚀 Funzionalità principali
 
-✅ Inserimento di entrate e uscite
-✅ Calcolo automatico del bilancio mensile
-✅ Visualizzazione con grafico a barre dinamico
-✅ Suggerimenti automatici per migliorare la gestione economica
-✅ Salvataggio storico in CSV
-✅ Lettura e aggiornamento in tempo reale
-✅ Funzioni di modifica e eliminazione delle transazioni
-✅ Interfaccia grafica moderna con layout responsive
+✅ Registrazione e accesso utente
+🔒 Reset password sicuro
+💸 Gestione entrate e uscite
+📊 Grafico riepilogativo automatico
+🗂️ Salvataggio dati in CSV
+👤 Ogni utente vede solo i propri dati
+🌐 Funziona online (Streamlit Cloud) o offline (locale)
+
 
 🧠 Tecnologie Utilizzate
 
@@ -24,34 +24,6 @@ Pandas (gestione e analisi dati)
 
 CSV per la persistenza dei dati
 
-⚙️ Installazione e Avvio
-1️⃣ Clona il progetto
-git clone https://github.com/Stefanus-dev/FinanceApp.git
-cd FinanceApp
-
-2️⃣ Installa le dipendenze
-pip install -r requirements.txt
-
-3️⃣ Avvia l’applicazione
-python main.py
-
-💾 Dati Salvati
-
-I dati vengono salvati nel file:
-data/storico.csv
-
-Ogni riga contiene:
-Data, Tipo, Descrizione, Importo
-
-🔮 Possibili estensioni future
-
--Grafico a torta per categorie di spesa
-
--Esportazione in PDF o Excel
-
--Integrazione con API bancarie
-
--Sincronizzazione cloud
 
 🧑‍💻 Autore
 
