@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import bcrypt
+from passlib.hash import bcrypt
 import os
 
 # CONFIGURAZIONE BASE
@@ -12,6 +12,12 @@ DATA_DIR = "data"
 os.makedirs(DATA_DIR, exist_ok=True)
 CSV_PATH = os.path.join(DATA_DIR, "storico.csv")
 USERS_PATH = "users.csv"
+
+# --- INIZIALIZZAZIONE SESSIONE ---
+if "user" not in st.session_state:
+    st.session_state["user"] = None
+if "rerun_done" not in st.session_state:
+    st.session_state["rerun_done"] = False
 
 # --- GESTIONE UTENTI ---
 def carica_utenti():
@@ -27,8 +33,8 @@ def registra_utente(username, password):
     df = carica_utenti()
     if username in df["username"].values:
         return False
-    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-    nuovo = pd.DataFrame([{"username": username, "password": hashed.decode("utf-8")}])
+    hashed = bcrypt.hash(password)
+    nuovo = pd.DataFrame([{"username": username, "password": hashed}])
     df = pd.concat([df, nuovo], ignore_index=True)
     salva_utenti(df)
     return True
@@ -37,14 +43,14 @@ def verifica_login(username, password):
     df = carica_utenti()
     if username not in df["username"].values:
         return False
-    stored_hash = df[df["username"] == username]["password"].values[0].encode("utf-8")
-    return bcrypt.checkpw(password.encode("utf-8"), stored_hash)
+    stored_hash = df[df["username"] == username]["password"].values[0]
+    return bcrypt.verify(password, stored_hash)
 
 def reset_password(username, new_password):
     df = carica_utenti()
     if username in df["username"].values:
-        hashed = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
-        df.loc[df["username"] == username, "password"] = hashed.decode("utf-8")
+        hashed = bcrypt.hash(new_password)
+        df.loc[df["username"] == username, "password"] = hashed
         salva_utenti(df)
         return True
     return False
@@ -109,12 +115,14 @@ else:
     if st.button("Accedi"):
         if verifica_login(username, password):
             st.session_state["user"] = username
-            st.experimental_rerun()
+            if not st.session_state.get("rerun_done", False):
+                st.session_state["rerun_done"] = True
+                st.experimental_rerun()
         else:
             st.error("Credenziali non valide.")
 
 # --- SEZIONE PRINCIPALE ---
-if "user" in st.session_state:
+if st.session_state["user"]:
     st.success(f"Benvenuto, {st.session_state['user']} 👋")
 
     col1, col2 = st.columns(2)
@@ -162,5 +170,6 @@ if "user" in st.session_state:
         st.write("Nessun dato da mostrare.")
 
     if st.button("Logout"):
-        del st.session_state["user"]
+        st.session_state["user"] = None
+        st.session_state["rerun_done"] = False
         st.experimental_rerun()
