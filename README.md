@@ -1,36 +1,76 @@
-# FinanceApp
-FinanceApp è un’applicazione desktop sviluppata in Python (Tkinter + Matplotlib) per la gestione personale delle spese e delle entrate mensili.
+# 💰 FinanceWebApp
 
-🚀 Funzionalità principali
+Una semplice ma potente applicazione web per la **gestione delle spese mensili**, sviluppata in **Python + Streamlit**.  
+Consente di inserire entrate e uscite, visualizzare grafici dinamici, salvare lo storico e ricevere consigli di bilancio.
 
-✅ Registrazione e accesso utente
-🔒 Reset password sicuro
-💸 Gestione entrate e uscite
-📊 Grafico riepilogativo automatico
-🗂️ Salvataggio dati in CSV
-👤 Ogni utente vede solo i propri dati
-🌐 Funziona online (Streamlit Cloud) o offline (locale)
+---
 
+## 🚀 Funzionalità principali
 
-🧠 Tecnologie Utilizzate
+✅ **Registrazione e Login utenti** — sistema sicuro con password hashate (grazie a `passlib[bcrypt]`)  
+✅ **Gestione spese** — aggiunta, modifica ed eliminazione di entrate e uscite  
+✅ **Storico dati CSV** — i movimenti vengono salvati in un file locale  
+✅ **Grafici interattivi** — visualizzazione automatica di entrate/uscite con `matplotlib`  
+✅ **Consigli di bilancio** — suggerimenti dinamici in base al saldo mensile  
+✅ **Compatibilità totale** — funziona su Windows, Mac, Linux e **Streamlit Cloud**
 
-Python 3
+---
 
-Tkinter (interfaccia grafica)
+## 🧠 Tecnologie utilizzate
 
-Matplotlib (grafici)
+- **Python 3.10+**
+- **Streamlit** — per la UI web
+- **Pandas** — per la gestione dei dati
+- **Matplotlib** — per i grafici
+- **Passlib[bcrypt]** — per la sicurezza delle password
 
-Pandas (gestione e analisi dati)
+---
 
-CSV per la persistenza dei dati
+## ⚙️ Installazione locale
 
+1. Clona il repository:
+   ```bash
+   git clone https://github.com/Stefanus-dev/FinanceWebApp.git
+   cd FinanceWebApp
+Installa le dipendenze:
+pip install -r requirements.txt
 
-🧑‍💻 Autore
+Avvia l’app:
+streamlit run app.py
 
-Stefano D'Angelo - Stefanus-dev
-email: stefanoda410@gmail.com
+L’app sarà accessibile su:
+http://localhost:8501
 
-## 📜 Licenza
+🌐 Deploy su Streamlit Cloud
 
-Questo progetto è distribuito con licenza **MIT** — libero utilizzo per fini personali o didattici.  
-Vedi il file [LICENSE](LICENSE) per maggiori dettagli.
+L’app è compatibile e già pronta per il deploy su Streamlit Cloud.
+Puoi provarla subito da questo link (se pubblico):
+
+https://financewebapp-h9mbzlw2at8rvijg8sueln.streamlit.app/
+
+🧾 Licenza
+
+Questo progetto è distribuito sotto licenza MIT — sei libero di usarlo, modificarlo e condividerlo a fini didattici o personali.
+Consulta il file LICENSE.
+
+✨ Autore
+
+Stefanus-dev
+
+---
+
+## 🤖 Integrazioni future con AI
+
+FinanceWebApp è pensata per evolversi nel tempo con l’aiuto dell’intelligenza artificiale.
+
+🚧 Idee già in fase di sviluppo:
+
+- **Analisi intelligente delle spese:** un assistente AI che fornisce suggerimenti personalizzati per migliorare il tuo bilancio.  
+- **Previsioni di spesa:** utilizzo di modelli predittivi per stimare le spese dei mesi successivi.  
+- **Categorizzazione automatica:** riconoscimento automatico della categoria di ogni spesa (alimentari, trasporti, ecc.).  
+- **Chatbot finanziario:** un assistente interattivo per rispondere a domande sul tuo andamento economico.
+
+> In futuro sarà possibile integrare questi strumenti tramite API (es. OpenAI, Hugging Face, o modelli locali) per un’esperienza ancora più personalizzata.
+
+---
+
