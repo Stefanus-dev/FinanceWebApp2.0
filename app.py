@@ -1,23 +1,21 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from passlib.hash import bcrypt
+import bcrypt
 import os
 
-# CONFIGURAZIONE BASE
+# --- CONFIGURAZIONE ---
 st.set_page_config(page_title="FinanceApp Web", page_icon="💰", layout="wide")
 
-# --- Percorsi ---
+# --- PERCORSI ---
 DATA_DIR = "data"
 os.makedirs(DATA_DIR, exist_ok=True)
 CSV_PATH = os.path.join(DATA_DIR, "storico.csv")
 USERS_PATH = "users.csv"
 
-# --- INIZIALIZZAZIONE SESSIONE ---
+# --- SESSIONE INIZIALE ---
 if "user" not in st.session_state:
     st.session_state["user"] = None
-if "rerun_done" not in st.session_state:
-    st.session_state["rerun_done"] = False
 
 # --- GESTIONE UTENTI ---
 def carica_utenti():
@@ -33,8 +31,8 @@ def registra_utente(username, password):
     df = carica_utenti()
     if username in df["username"].values:
         return False
-    hashed = bcrypt.hash(password)
-    nuovo = pd.DataFrame([{"username": username, "password": hashed}])
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    nuovo = pd.DataFrame([{"username": username, "password": hashed.decode("utf-8")}])
     df = pd.concat([df, nuovo], ignore_index=True)
     salva_utenti(df)
     return True
@@ -43,14 +41,14 @@ def verifica_login(username, password):
     df = carica_utenti()
     if username not in df["username"].values:
         return False
-    stored_hash = df[df["username"] == username]["password"].values[0]
-    return bcrypt.verify(password, stored_hash)
+    stored_hash = df[df["username"] == username]["password"].values[0].encode("utf-8")
+    return bcrypt.checkpw(password.encode("utf-8"), stored_hash)
 
 def reset_password(username, new_password):
     df = carica_utenti()
     if username in df["username"].values:
-        hashed = bcrypt.hash(new_password)
-        df.loc[df["username"] == username, "password"] = hashed
+        hashed = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+        df.loc[df["username"] == username, "password"] = hashed.decode("utf-8")
         salva_utenti(df)
         return True
     return False
@@ -58,7 +56,11 @@ def reset_password(username, new_password):
 # --- GESTIONE DATI FINANZIARI ---
 def carica_dati():
     if os.path.exists(CSV_PATH) and os.path.getsize(CSV_PATH) > 0:
-        return pd.read_csv(CSV_PATH)
+        df = pd.read_csv(CSV_PATH)
+        for col in ["Utente", "Tipo", "Importo", "Descrizione"]:
+            if col not in df.columns:
+                df[col] = ""
+        return df
     else:
         return pd.DataFrame(columns=["Utente", "Tipo", "Importo", "Descrizione"])
 
@@ -82,9 +84,9 @@ def elimina_voce(utente, indice):
     return carica_dati()
 
 # --- INTERFACCIA ---
-st.title("💰 FinanceApp")
+st.title("💰 FinanceApp Web")
 
-# --- Login / Registrazione ---
+# --- MENU LOGIN / REGISTRAZIONE ---
 menu = ["Login", "Registrati", "Reset Password"]
 scelta = st.sidebar.selectbox("Navigazione", menu)
 
@@ -115,9 +117,6 @@ else:
     if st.button("Accedi"):
         if verifica_login(username, password):
             st.session_state["user"] = username
-            if not st.session_state.get("rerun_done", False):
-                st.session_state["rerun_done"] = True
-                st.experimental_rerun()
         else:
             st.error("Credenziali non valide.")
 
@@ -171,5 +170,3 @@ if st.session_state["user"]:
 
     if st.button("Logout"):
         st.session_state["user"] = None
-        st.session_state["rerun_done"] = False
-        st.experimental_rerun()
