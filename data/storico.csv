@@ -1,2 +1,9 @@
-Utente,Tipo,Importo,Categoria,Data
-Stefanus0,Entrata,4000.0,stipendio,2025-11-04
+Utente,Tipo,Importo,Categoria,Data,Descrizione
+dev1,Entrata,1234.0,Stipendio,2025-11-05,stipendio
+stef1,Entrata,2345.0,Stipendio,2025-11-05,stipendio
+se,Entrata,3452.0,Stipendio,2025-11-05,stipendio
+se,Uscita,452.0,Affitto,2025-11-05,affitto
+se,Uscita,200.0,Altro,2025-11-05,luce
+se,Uscita,80.0,Spesa,2025-11-05,supermercato
+dev1,Entrata,12.0,Altro,2025-11-05,spese
+dev1,Uscita,12.0,Altro,2025-11-05,spese
