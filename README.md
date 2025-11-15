@@ -32,6 +32,7 @@ FinanceWebApp2.0/
 └── categorie.csv # Mappatura dinamica
 
 ---
+---> https://financewebapp20-eakr5erbhexaqub2ucsuht.streamlit.app/
 
 📝 Licenza
 
